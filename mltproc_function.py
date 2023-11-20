@@ -1,13 +1,16 @@
+from multiprocessing import Pool
 from time import time
+
+
+def get_divisors(divided) -> list[int]:
+    divisors = [divisor for divisor in range(1, divided + 1) if not divided % divisor]
+    return divisors
 
 
 def factorize(*number) -> list[list[int]]:
 
-    function_result = []
-    
-    for divided in number:
-        number_result = [divisor for divisor in range(1, divided + 1) if not divided % divisor]
-        function_result.append(number_result)
+    with Pool(processes=4) as pool:
+        function_result = pool.map(get_divisors, number)
 
     return function_result
 
